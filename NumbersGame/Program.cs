@@ -5,36 +5,58 @@
         static void Main(string[] args)
         {
             Console.WriteLine("Välkommen! Jag tänker på ett nummer. Kan du gissa vilket? Du får fem försök.");
+
             Random random = new Random();
             int number = random.Next(1, 20);
 
             int counter = 0;
             int input = 0;
+            bool isCorrect;
 
             do
             {
-                input = int.Parse(Console.ReadLine());
-                if (input < number)
+                isCorrect = int.TryParse(Console.ReadLine(), out input); 
+
+                if (isCorrect)
                 {
-                    Console.WriteLine("Tyvärr, du gissade för lågt!");
-                    counter++;
-                }  
-                else if (input > number)
-                {
-                    Console.WriteLine("Tyvärr, du gissade för högt!");
-                    counter++;
-                } 
-                else
-                {
-                    Console.WriteLine("Wohoo! Du klarade det!");
-                    break;
+                    if (!CheckGuess(input, number))
+                    {
+                        counter++;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
+                else {
+                        Console.WriteLine("Skriv ett giltigt nummer!");
+                        continue;
+                }
+                
+
                 if (counter ==5)
                     Console.WriteLine("Tyvärr, du lyckades inte gissa talet på fem försök!");
 
             } while (counter < 5);
 
             
+        }
+        static bool CheckGuess(int a,int b)
+        {
+            if (a < b)
+            {
+                Console.WriteLine("Tyvärr, du gissade för lågt!");
+                return false;
+            }
+            else if (a > b)
+            {
+                Console.WriteLine("Tyvärr, du gissade för högt!");
+                return false;
+            }
+            else {
+                Console.WriteLine("Wohoo! Du klarade det!");
+                return true;
+            }
         }
     }
 }
